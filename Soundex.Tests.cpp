@@ -3,7 +3,7 @@
 
 
 TEST(SoundexTest, isPrevLetterHWYPass) {
-    const std::string name = "Tymczak";
-    size_t i = 3;
+    const std::string name = "TYMZAK";
+    size_t i = 2;
     EXPECT_TRUE(isPrevLetterHWY(name, i));
 }
