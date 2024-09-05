@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <Soundex.h>
+#include "Soundex.h"
 #include <cctype>
 #include <map>
 using namespace std;
