@@ -5,7 +5,7 @@
 #include <map>
 using namespace std;
 
-bool isPrevLetterHWY(std::string& name, size_t& i) {
+bool isPrevLetterHWY(const std::string& name, size_t& i) {
   return (name[i-1] == 'H' || name[i-1] == 'W' || name[i-1] == 'Y');
 }
 
