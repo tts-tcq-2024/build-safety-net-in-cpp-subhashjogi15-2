@@ -43,6 +43,15 @@ void handleSoundexLengthFour(std::string& soundex) {
     }
 }
 
+void generateSoundexForLetter(const std::string& name, size_t& i, std::string& soundex, char& previousCode, char& lastCode) {
+  if (isPrevLetterHWY(name, i)) {
+          generateSoundexForPrevLetterHWY(name, i, soundex, lastCode);
+        }
+        else {
+          generateSoundexForCurrentLetter(name, i, soundex, previousCode);
+        }
+}
+
 void handleSoundex(std::string& soundex, const std::string& name) {
     char previousLetter = toupper(name[0]);
     char previousCode = getSoundexCode(name[0]);
@@ -51,12 +60,7 @@ void handleSoundex(std::string& soundex, const std::string& name) {
     char lastCode = getSoundexCode(name[0]);
     
     for (size_t i = 1; i < name.length() && soundex.length() < 4; ++i) {
-        if (isPrevLetterHWY(name, i)) {
-          generateSoundexForPrevLetterHWY(name, i, soundex, lastCode);
-        }
-        else {
-          generateSoundexForCurrentLetter(name, i, soundex, previousCode);
-        }
+      generateSoundexForLetter(name, i, soundex, lastCode, previousCode);
         lastCode = previousCode;
         previousCode = getSoundexCode(name[i]);
     }
@@ -82,4 +86,5 @@ std::string name;
  
     return 0;
 }
+
 
