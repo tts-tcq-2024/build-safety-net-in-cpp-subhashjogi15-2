@@ -1,10 +1,11 @@
 #include <iostream>
 #include <string>
+#include <Soundex.h>
 #include <cctype>
 #include <map>
 using namespace std;
 
-bool isPrevLetterHWY(std::string& name, size_t& i) {
+bool isPrevLetterHWY(const std::string& name, size_t& i) {
   if ((name[i-1] == 'H' || name[i-1] == 'W' || name[i-1] == 'Y')) {
     return true;
   }
@@ -27,21 +28,21 @@ char getSoundexCode(char c) {
     return (it != soundexMap.end()) ? it->second : '0';
 }
 
-void generateSoundexForPrevLetterHWY(std::string& name, size_t& i, std::string& soundex, char& lastCode) {
+void generateSoundexForPrevLetterHWY(const std::string& name, size_t& i, std::string& soundex, char& lastCode) {
              char currCode = getSoundexCode(name[i]);
            if(lastCode != currCode) {
                soundex += currCode;
   }
 }
 
-void generateSoundexForCurrentLetter(std::string& name, size_t& i, std::string& soundex, char& previousCode) {
+void generateSoundexForCurrentLetter(const std::string& name, size_t& i, std::string& soundex, char& previousCode) {
   if (getSoundexCode(name[i]) != '0' && getSoundexCode(name[i]) != previousCode) {
     soundex += getSoundexCode(name[i]);
   }
 }
 
 
-std::string generateSoundex(std::string& name) {
+std::string generateSoundex(const std::string& name) {
     if (name.empty()) return "";
     
     std::string soundex(1, toupper(name[0]));
