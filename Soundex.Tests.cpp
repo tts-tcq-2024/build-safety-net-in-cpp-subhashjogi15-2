@@ -17,9 +17,7 @@ TEST(SoundexTest, isPrevLetterHWY_Fail) {
 TEST(SoundexTest, getSoundexCode_pass) {
    char c = 'A';
    EXPECT_EQ(getSoundexCode(c), '0');
-}
-
-TEST(SoundexTest, getSoundexCode_pass) {
+    
    const std::string name = "BOB";
    char c = 'R';
    EXPECT_EQ(getSoundexCode(c), '2');
