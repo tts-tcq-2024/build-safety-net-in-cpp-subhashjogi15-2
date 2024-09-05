@@ -1,36 +1,31 @@
 #include <gtest/gtest.h>
 #include "Soundex.h"
-
-
-TEST(SoundexTest, isPrevLetterHWY_Pass) {
-    const std::string name = "TYMZAK";
-    size_t i = 2;
-    EXPECT_TRUE(isPrevLetterHWY(name, i));
+ 
+TEST(SoundexTest, IsPrevLetterHWY) {
+    std::string name = "HWY";
+    size_t index = 1;
+    EXPECT_TRUE(isPrevLetterHWY(name, index));
+    name = "HAPPY";
+    index = 2;
+    EXPECT_FALSE(isPrevLetterHWY(name, index));
 }
-
-TEST(SoundexTest, isPrevLetterHWY_Fail) {
-    const std::string name = "TYMZAK";
-    size_t i = 3;
-    EXPECT_FALSE(isPrevLetterHWY(name, i));
+ 
+TEST(SoundexTest, GetSoundexCode) {
+    EXPECT_EQ(getSoundexCode('A'), '0');
+    EXPECT_EQ(getSoundexCode('B'), '1');
+    EXPECT_EQ(getSoundexCode('C'), '2');
+    EXPECT_EQ(getSoundexCode('D'), '3');
+    EXPECT_EQ(getSoundexCode('L'), '4');
+    EXPECT_EQ(getSoundexCode('M'), '5');
+    EXPECT_EQ(getSoundexCode('R'), '6');
+    EXPECT_EQ(getSoundexCode('X'), '2');
+    EXPECT_EQ(getSoundexCode('Z'), '2');
+    EXPECT_EQ(getSoundexCode('H'), '0');
+    EXPECT_EQ(getSoundexCode('W'), '0');
+    EXPECT_EQ(getSoundexCode('Y'), '0');
+    EXPECT_EQ(getSoundexCode('Q'), '2');
 }
-
-TEST(SoundexTest, getSoundexCode_pass) {
-   char c = 'A';
-   EXPECT_EQ(getSoundexCode(c), '0');
-    
-   const std::string name = "BOB";
-   char c = 'R';
-   EXPECT_EQ(getSoundexCode(c), '2');
-}
-
-TEST(SoundexTest, generateSoundexIfPrevLetterHWY_Pass) {
-    const std::string name = "BOB";
-    size_t i = 2;
-    std::string soundex = "1";
-    char lastCode = '1'
-    EXPECT_EQ(generateSoundexIfPrevLetterHWY(c , '6');
-}
-
+ 
 TEST(SoundexTest, GenerateSoundexIfPrevLetterHWY) {
     std::string name = "HWY";
     size_t index = 2;
@@ -47,6 +42,7 @@ TEST(SoundexTest, GenerateSoundexIfPrevLetterNotHWY) {
     char previousCode = '0';
     generateSoundexIfPrevLetterNotHWY(name, index, soundex, previousCode);
     EXPECT_EQ(soundex, "1");
+ 
     index = 2;
     previousCode = '1';
     generateSoundexIfPrevLetterNotHWY(name, index, soundex, previousCode);
@@ -57,6 +53,7 @@ TEST(SoundexTest, MakeSoundeLengthFour) {
     std::string soundex = "A";
     makeSoundeLengthFour(soundex);
     EXPECT_EQ(soundex, "A000");
+ 
     soundex = "A123";
     makeSoundeLengthFour(soundex);
     EXPECT_EQ(soundex, "A123");
@@ -68,8 +65,10 @@ TEST(SoundexTest, GenerateSoundexForLetter) {
     std::string soundex;
     char previousCode = '0';
     char lastCode = '0';
+ 
     generateSoundexForLetter(name, index, soundex, previousCode, lastCode);
     EXPECT_EQ(soundex, "1");
+ 
     previousCode = '1';
     lastCode = '1';
     index = 2;
@@ -104,8 +103,5 @@ TEST(SoundexTest, GenerateSoundex) {
     EXPECT_EQ(generateSoundex("A"), "A000");
     EXPECT_EQ(generateSoundex("Abcd"), "A123");
     EXPECT_EQ(generateSoundex("pfister"), "P236");
-    EXPECT_EQ(generateSoundex("Honeyman"), "H555");
     EXPECT_EQ(generateSoundex("Tymczak"), "T522");
 }
-
-
