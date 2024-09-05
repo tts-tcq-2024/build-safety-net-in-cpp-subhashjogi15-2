@@ -43,11 +43,7 @@ void handleSoundexLengthFour(std::string& soundex) {
     }
 }
 
-std::string generateSoundex(const std::string& name) {
-  
-    if (name.empty()) return "";
-    
-    std::string soundex(1, toupper(name[0]));
+void handleSoundex(std::string& soundex, const std::string& name) {
     char previousLetter = toupper(name[0]);
     char previousCode = getSoundexCode(name[0]);
     
@@ -64,7 +60,13 @@ std::string generateSoundex(const std::string& name) {
         lastCode = previousCode;
         previousCode = getSoundexCode(name[i]);
     }
+}
 
+std::string generateSoundex(const std::string& name) {
+  
+    if (name.empty()) return "";
+    std::string soundex(1, toupper(name[0]));
+    handleSoundex(soundex, name);
     handleSoundexLengthFour(soundex);
     return soundex;
 }
@@ -80,3 +82,4 @@ std::string name;
  
     return 0;
 }
+
