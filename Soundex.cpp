@@ -23,21 +23,20 @@ char getSoundexCode(char c) {
     return (it != soundexMap.end()) ? it->second : '0';
 }
 
-void generateSoundexForPrevLetterHWY(const std::string& name, size_t& i, std::string& soundex, char& lastCode) {
-             char currCode = getSoundexCode(name[i]);
-           if(lastCode != currCode) {
-               soundex += currCode;
+void generateSoundexIfPrevLetterHWY(const std::string& name, size_t& i, std::string& soundex, char& lastCode) {
+  char currCode = getSoundexCode(name[i]);
+  if(lastCode != currCode) {
+     soundex += currCode;
   }
 }
 
-void generateSoundexForCurrentLetter(const std::string& name, size_t& i, std::string& soundex, char& previousCode) {
+void generateSoundexIfPrevLetterNotHWY(const std::string& name, size_t& i, std::string& soundex, char& previousCode) {
   if (getSoundexCode(name[i]) != '0' && getSoundexCode(name[i]) != previousCode) {
     soundex += getSoundexCode(name[i]);
   }
 }
 
-
-void handleSoundexLengthFour(std::string& soundex) {
+void makeSoundeLengthFour(std::string& soundex) {
   while (soundex.length() < 4) {
         soundex += '0';
     }
@@ -45,11 +44,11 @@ void handleSoundexLengthFour(std::string& soundex) {
 
 void generateSoundexForLetter(const std::string& name, size_t& i, std::string& soundex, char& previousCode, char& lastCode) {
   if (isPrevLetterHWY(name, i)) {
-          generateSoundexForPrevLetterHWY(name, i, soundex, lastCode);
-        }
-        else {
-          generateSoundexForCurrentLetter(name, i, soundex, previousCode);
-        }
+    generateSoundexIfPrevLetterHWY(name, i, soundex, lastCode);
+  }
+  else {
+    generateSoundexIfPrevLetterNotHWY(name, i, soundex, previousCode);
+  }
 }
 
 void handleSoundex(std::string& soundex, const std::string& name) {
@@ -67,24 +66,9 @@ void handleSoundex(std::string& soundex, const std::string& name) {
 }
 
 std::string generateSoundex(const std::string& name) {
-  
     if (name.empty()) return "";
     std::string soundex(1, toupper(name[0]));
     handleSoundex(soundex, name);
-    handleSoundexLengthFour(soundex);
+    makeSoundeLengthFour(soundex);
     return soundex;
 }
-
-
-int main() {
-std::string name;
-    std::cout << "Enter a name: ";
-    std::cin >> name;
- 
-    std::string soundexCode = generateSoundex(name);
-    std::cout << "Soundex code for " << name << " is " << soundexCode << std::endl;
- 
-    return 0;
-}
-
-
