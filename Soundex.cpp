@@ -5,13 +5,8 @@
 #include <map>
 using namespace std;
 
-bool isPrevLetterHWY(const std::string& name, size_t& i) {
-  if ((name[i-1] == 'H' || name[i-1] == 'W' || name[i-1] == 'Y')) {
-    return true;
-  }
-  else {
-    return false;
-  }
+bool isPrevLetterHWY(std::string& name, size_t& i) {
+  return (name[i-1] == 'H' || name[i-1] == 'W' || name[i-1] == 'Y');
 }
 
 char getSoundexCode(char c) {
@@ -42,7 +37,14 @@ void generateSoundexForCurrentLetter(const std::string& name, size_t& i, std::st
 }
 
 
-std::string generateSoundex(const std::string& name) {
+void handleSoundexLengthFour(std::string& soundex) {
+  while (soundex.length() < 4) {
+        soundex += '0';
+    }
+}
+
+std::string generateSoundex(std::string& name) {
+  
     if (name.empty()) return "";
     
     std::string soundex(1, toupper(name[0]));
@@ -63,11 +65,10 @@ std::string generateSoundex(const std::string& name) {
         previousCode = getSoundexCode(name[i]);
     }
 
-    while (soundex.length() < 4) {
-        soundex += '0';
-    }
-       return soundex;
+    handleSoundexLengthFour(soundex);
+    return soundex;
 }
+
 
 int main() {
 std::string name;
