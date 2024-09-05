@@ -43,7 +43,7 @@ void handleSoundexLengthFour(std::string& soundex) {
     }
 }
 
-std::string generateSoundex(std::string& name) {
+std::string generateSoundex(const std::string& name) {
   
     if (name.empty()) return "";
     
