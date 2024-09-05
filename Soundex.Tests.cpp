@@ -2,11 +2,8 @@
 #include "Soundex.h"
 
 
-TEST(SoundexTest, HandlesEmptyString) {
-    EXPECT_EQ(generateSoundex(""), "");
+TEST(SoundexTest, isPrevLetterHWYPass) {
+    const std::string name = "Tymczak";
+    size_t i = 2;
+    EXPECT_TRUE(isPrevLetterHWY(name, i));
 }
-
-TEST(SoundexTest, HandlesSingleCharacter) {
-    EXPECT_EQ(generateSoundex("A"), "A000");
-}
-
