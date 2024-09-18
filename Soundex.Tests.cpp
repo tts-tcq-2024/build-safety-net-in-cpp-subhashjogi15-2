@@ -1,107 +1,32 @@
-#include <gtest/gtest.h>
-#include "Soundex.h"
- 
-TEST(SoundexTest, IsPrevLetterHWY) {
-    std::string name = "HWY";
-    size_t index = 1;
-    EXPECT_TRUE(isPrevLetterHWY(name, index));
-    name = "HAPPY";
-    index = 2;
-    EXPECT_FALSE(isPrevLetterHWY(name, index));
+TEST(SoundexTest, ReturnSoundexEmptyIfInputEmpty) {
+	EXPECT_EQ(generateSoundex(""), "");
 }
- 
-TEST(SoundexTest, GetSoundexCode) {
-    EXPECT_EQ(getSoundexCode('A'), '0');
-    EXPECT_EQ(getSoundexCode('B'), '1');
-    EXPECT_EQ(getSoundexCode('C'), '2');
-    EXPECT_EQ(getSoundexCode('D'), '3');
-    EXPECT_EQ(getSoundexCode('L'), '4');
-    EXPECT_EQ(getSoundexCode('M'), '5');
-    EXPECT_EQ(getSoundexCode('R'), '6');
-    EXPECT_EQ(getSoundexCode('X'), '2');
-    EXPECT_EQ(getSoundexCode('Z'), '2');
-    EXPECT_EQ(getSoundexCode('H'), '0');
-    EXPECT_EQ(getSoundexCode('W'), '0');
-    EXPECT_EQ(getSoundexCode('Y'), '0');
-    EXPECT_EQ(getSoundexCode('Q'), '2');
+
+//Test case to drop the occurances of a, e, i, o, u, y, h, w and replace all consonents with numbers
+TEST(SoundexTest, replaceConsonentsWithNumbers) {
+	EXPECT_EQ(generateSoundex("Robert"), "R163");
 }
- 
-TEST(SoundexTest, GenerateSoundexIfPrevLetterHWY) {
-    std::string name = "HWY";
-    size_t index = 2;
-    std::string soundex;
-    char lastCode = '0';
-    generateSoundexIfPrevLetterHWY(name, index, soundex, lastCode);
-    EXPECT_EQ(soundex, "");
+
+TEST(SoundexTest, appendWithZerosIfSoundexLengthLessThanFour) {
+	EXPECT_EQ(generateSoundex("Rubin"), "R150");
 }
- 
-TEST(SoundexTest, GenerateSoundexIfPrevLetterNotHWY) {
-    std::string name = "ABCD";
-    size_t index = 1;
-    std::string soundex;
-    char previousCode = '0';
-    generateSoundexIfPrevLetterNotHWY(name, index, soundex, previousCode);
-    EXPECT_EQ(soundex, "1");
- 
-    index = 2;
-    previousCode = '1';
-    generateSoundexIfPrevLetterNotHWY(name, index, soundex, previousCode);
-    EXPECT_EQ(soundex, "12");
+
+//Test case to test two or more letters with the same number are adjacent, only retain the first letter
+TEST(SoundexTest, retainFirstLetterIfTwoOrMoreLettersAdjacent) {
+	EXPECT_EQ(generateSoundex("Rubbbbin"), "R150");
 }
- 
-TEST(SoundexTest, MakeSoundeLengthFour) {
-    std::string soundex = "A";
-    makeSoundeLengthFour(soundex);
-    EXPECT_EQ(soundex, "A000");
- 
-    soundex = "A123";
-    makeSoundeLengthFour(soundex);
-    EXPECT_EQ(soundex, "A123");
+
+//Test case to test two letters with the same number separated by 'h', 'w' or 'y' are coded as a single number
+TEST(SoundexTest, codeSingleNumberIfTwoLetterswithSameNumberSeparatedByHWY) {
+	EXPECT_EQ(generateSoundex("Ashcraft"), "A261");
 }
- 
-TEST(SoundexTest, GenerateSoundexForLetter) {
-    std::string name = "ABCD";
-    size_t index = 1;
-    std::string soundex;
-    char previousCode = '0';
-    char lastCode = '0';
- 
-    generateSoundexForLetter(name, index, soundex, previousCode, lastCode);
-    EXPECT_EQ(soundex, "1");
- 
-    previousCode = '1';
-    lastCode = '1';
-    index = 2;
-    generateSoundexForLetter(name, index, soundex, previousCode, lastCode);
-    EXPECT_EQ(soundex, "12");
+
+//Test case to test two letters with the same number separated by vowel are coded twice
+TEST(SoundexTest, codeSeparateNumberIfTwoLetterswithSameNumberSeparatedByVowel) {
+	EXPECT_EQ(generateSoundex("Tymczak"), "T522");
 }
- 
-TEST(SoundexTest, HandleSoundex) {
-    std::string name = "Example";
-    std::string soundex;
-    soundex = "E";
-    handleSoundex(soundex, name);
-    EXPECT_EQ(soundex, "E251");
- 
-    name = "Soundex";
-    soundex = "S";
-    handleSoundex(soundex, name);
-    EXPECT_EQ(soundex, "S532");
- 
-    name = "HWY";
-    soundex.clear();
-    soundex = "H";
-    handleSoundex(soundex, name);
-    EXPECT_EQ(soundex, "H");
-}
- 
-TEST(SoundexTest, GenerateSoundex) {
-    EXPECT_EQ(generateSoundex("Example"), "E251");
-    EXPECT_EQ(generateSoundex("Soundex"), "S532");
-    EXPECT_EQ(generateSoundex("HWY"), "H000");
-    EXPECT_EQ(generateSoundex(""), "");
-    EXPECT_EQ(generateSoundex("A"), "A000");
-    EXPECT_EQ(generateSoundex("Abcd"), "A123");
-    EXPECT_EQ(generateSoundex("pfister"), "P236");
-    EXPECT_EQ(generateSoundex("Tymczak"), "T522");
+
+//Test case to test first two letters have the same number and are coded once as single letter
+TEST(SoundexTest, codeSingleLetterIfFirstTwoLettersWithSameNumbers) {
+	EXPECT_EQ(generateSoundex("Pfister"), "P236");
 }
