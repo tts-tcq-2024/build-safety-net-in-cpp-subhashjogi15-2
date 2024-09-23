@@ -1,3 +1,6 @@
+#include <gtest/gtest.h>
+#include "Soundex.h"
+
 TEST(SoundexTest, ReturnSoundexEmptyIfInputEmpty) {
 	EXPECT_EQ(generateSoundex(""), "");
 }
