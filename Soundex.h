@@ -8,3 +8,4 @@
 #include <list>
  
 std::string generateSoundex(const std::string& name);
+#endif
